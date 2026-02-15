@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import * as Survey from 'survey-react';
 import ReactDOM from 'react-dom';
 
@@ -125,10 +125,14 @@ const json = {
 };
 
 function Quiz() {
-    const survey = new Survey.Model(json);
-    survey.onComplete.add((sender, options) => {
-        console.log(JSON.stringify(sender.data, null, 3));
-    });
+    const survey = useMemo(() => {
+        const s = new Survey.Model(json);
+        s.onComplete.add((sender, options) => {
+            console.log(JSON.stringify(sender.data, null, 3));
+        });
+        return s;
+    }, []);
+
     return <Survey.Survey model={survey} />;
 }
 
