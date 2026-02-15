@@ -5,15 +5,19 @@ const userModel = mongoose.Schema({
     name : {
         type : String,
         required : true,
+        minLength: [2, "Name must be at least 2 characters"],
+        maxLength: [30, "Name must be less than 30 characters"],
     },
 
     email : {
         type : String,
         required : true,
+        match: [/^[^\s@]+@[^\s@]+\.[^\s@]+$/, "Please fill a valid email address"],
     },
     password : {
         type : String,
         required : true,
+        minLength: [8, "Password must be at least 8 characters"],
     },
 },
 {
