@@ -42,6 +42,21 @@ const registerController = expressAsyncHandler(async (req, res) => {
         throw new Error("All necessary input fields have not been filled");
     }
 
+    // Input validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (name.length < 2 || name.length > 30) {
+        res.status(400);
+        throw new Error("Name must be between 2 and 30 characters");
+    }
+    if (!emailRegex.test(email)) {
+        res.status(400);
+        throw new Error("Invalid email format");
+    }
+    if (password.length < 8) {
+        res.status(400);
+        throw new Error("Password must be at least 8 characters long");
+    }
+
     // Check if user already exists with the provided email or name
     const userExist = await UserModel.findOne({ $or: [{ email }, { name }] });
 
